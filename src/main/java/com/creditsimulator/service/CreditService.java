@@ -9,6 +9,10 @@ import java.time.ZonedDateTime;
 public class CreditService {
 
 
+
+    private boolean validateThnKendaraan(int tahunKendaraan){
+        return String.valueOf(tahunKendaraan).length()==4;
+    }
     private void validateKendaraan(String kondisiKendaraan, int tahunKendaraan) {
         int thnKendaraanBaru = ZonedDateTime.now().minusYears(1).getYear();
         if (kondisiKendaraan.equalsIgnoreCase("BARU") && thnKendaraanBaru >= tahunKendaraan) {
