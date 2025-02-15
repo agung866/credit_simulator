@@ -1,4 +1,4 @@
-package creditsimulator;
+package com.creditsimulator;
 
 /**
  * Hello world!

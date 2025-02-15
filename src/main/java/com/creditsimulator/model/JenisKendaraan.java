@@ -1,4 +1,4 @@
-package creditsimulator.model;
+package com.creditsimulator.model;
 
 public enum JenisKendaraan {
     MOTOR,
