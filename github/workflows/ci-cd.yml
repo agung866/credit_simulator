@@ -8,6 +8,7 @@ on:
     branches:
       - master  # Trigger pipeline saat ada pull request ke branch main
 
+
 jobs:
   build:
     runs-on: ubuntu-latest  # Gunakan runner Ubuntu terbaru
