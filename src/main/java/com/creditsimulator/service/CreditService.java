@@ -14,9 +14,18 @@ import java.util.Map;
 
 public class CreditService {
 
+    private final URL url;
 
-    public void calculationLoanFromFile(String fileName) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    public CreditService(URL url) {
+        this.url = url;
+    }
+
+    public CreditService() throws IOException {
+        this(new URL("https://run.mocky.io/v3/32cf01c9-8dd6-4629-a595-434a05c3f04d"));
+    }
+
+    public void calculationLoanFromFile(BufferedReader reader) throws IOException {
+
         String line;
         RequestCredit map = new RequestCredit();
         while ((line = reader.readLine()) != null) {
@@ -43,7 +52,6 @@ public class CreditService {
     }
 
     public void calculationLoanFromApi() throws IOException {
-        URL url = new URL("https://run.mocky.io/v3/32cf01c9-8dd6-4629-a595-434a05c3f04d");
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -84,7 +92,7 @@ public class CreditService {
 
     private boolean validationRequest(RequestCredit requestCredit) {
         if (!requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOBIL)
-                || requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOTOR)) {
+                && !requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOTOR)) {
             System.err.println("ERROR : Vehicle Type is Wrong Please Input Mobil/Motor");
             return false;
         }
@@ -125,7 +133,7 @@ public class CreditService {
         return String.valueOf(tahunKendaraan).length() == 4;
     }
 
-    public static void calculateInstallment(BigDecimal principalLoan, int tenor, String vehicleType) {
+    private static void calculateInstallment(BigDecimal principalLoan, int tenor, String vehicleType) {
         BigDecimal monthlyInstallment;
         BigDecimal rate = vehicleType.equalsIgnoreCase("Mobil") ? new BigDecimal("8.0") : new BigDecimal("9.0");
         BigDecimal installmentYearly;
