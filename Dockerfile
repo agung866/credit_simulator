@@ -12,8 +12,8 @@ COPY file_input.txt /app/file_input.txt
 
 # Buat direktori bin dan copy script
 RUN mkdir -p /app/bin
-COPY bin/credit_simulator /app/bin/credit_simulator
-COPY bin/credit_simulator.bat /app/bin/credit_simulator.bat
+COPY /bin/credit_simulator /app/bin/credit_simulator
+COPY /bin/credit_simulator.bat /app/bin/credit_simulator.bat
 RUN chmod +x /app/bin/credit_simulator
 
 # Set environment variable untuk PATH
