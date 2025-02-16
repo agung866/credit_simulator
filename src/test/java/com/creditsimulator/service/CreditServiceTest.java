@@ -21,21 +21,8 @@ import static org.mockito.Mockito.*;
 class CreditServiceTest {
     @InjectMocks
     CreditService creditService;
-
-    @Mock
-    private HttpURLConnection mockConnection;
-
-    @Mock
-    private InputStream mockInputStream;
-    @Mock
-    private InputStreamReader inputStreamReader;
-
-    @Mock
-    private BufferedReader mockBufferedReader;
     @Mock
     URL url;
-    @Mock
-    StringBuilder stringBuilder;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -49,16 +36,16 @@ class CreditServiceTest {
                         "\"yearOfVehicle\":2023,\n" +
                         "\"loanAmount\":150000000,\n" +
                         "\"tenor\":6,\n" +
-                        "\"downPayment\":35\n" +
+                        "\"downPayment\":40\n" +
                         "}"),
                 Arguments.of(
                         "{\n" +
                                 "\"vehicleType\":\"Motor\",\n" +
                                 "\"vehicleCondition\":\"Bekas\",\n" +
                                 "\"yearOfVehicle\":2023,\n" +
-                                "\"loanAmount\":15000000,\n" +
-                                "\"tenor\":6,\n" +
-                                "\"downPayment\":25\n" +
+                                "\"loanAmount\":6000000,\n" +
+                                "\"tenor\":5,\n" +
+                                "\"downPayment\":30\n" +
                                 "}"
                 )
         );
@@ -67,7 +54,6 @@ class CreditServiceTest {
     @ParameterizedTest
     @MethodSource("argsSuccess")
     void testCalculationLoanFromApiValidResponse(String args) throws IOException {
-        // Arrange
         InputStream inputStream = new ByteArrayInputStream(args.getBytes());
         HttpURLConnection mockConnection = mock(HttpURLConnection.class);
         when(mockConnection.getInputStream()).thenReturn(inputStream);
