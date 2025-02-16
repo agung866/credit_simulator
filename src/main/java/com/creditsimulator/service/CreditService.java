@@ -149,10 +149,10 @@ public class CreditService {
                 }
             }
 
-            principalLoan = (principalLoan.multiply(rate.divide(new BigDecimal(100), 2, RoundingMode.HALF_UP))).add(principalLoan);
+            principalLoan = (principalLoan.multiply(rate.divide(new BigDecimal(100)))).add(principalLoan);
             BigDecimal devisor = (BigDecimal.valueOf(12).multiply(new BigDecimal(tenor)))
                     .subtract(totalMonthlyInstallments);
-            monthlyInstallment = principalLoan.divide(devisor, 2, RoundingMode.HALF_UP);
+            monthlyInstallment = principalLoan.divide(devisor);
 
             System.out.printf("Tahun %d : Rp. %, .2f/bln, Suku Bunga : %.1f%%%n", year, monthlyInstallment, rate);
 
