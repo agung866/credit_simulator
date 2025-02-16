@@ -1,6 +1,6 @@
 @echo off
 
-REM Jika ada argumen file input, jalankan dengan file input
+REM
 if "%1"=="" (
     java -jar target\credit_simulator-1.0-SNAPSHOT.jar
 ) else (
