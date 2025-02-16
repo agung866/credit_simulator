@@ -3,10 +3,10 @@ name: Java CI/CD with Maven
 on:
   push:
     branches:
-      - main  # Trigger pipeline saat ada push ke branch main
+      - master  # Trigger pipeline saat ada push ke branch main
   pull_request:
     branches:
-      - main  # Trigger pipeline saat ada pull request ke branch main
+      - master  # Trigger pipeline saat ada pull request ke branch main
 
 jobs:
   build:
