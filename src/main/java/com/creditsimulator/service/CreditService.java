@@ -17,12 +17,16 @@ public class CreditService {
     public void calculationLoanFromFile(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         String line;
-
+        RequestCredit map = new RequestCredit();
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split("\\|");
             if (parts.length == 6) {
-               RequestCredit map= contractReqFromFile( parts);
+                map = contractReqFromFile(parts);
             }
+        }
+        boolean isValid = validationRequest(map);
+        if (isValid) {
+            calculateInstallment(map.getPrincipalLoan(), map.getTenor(), map.getVehicleType());
         }
     }
 
@@ -38,22 +42,22 @@ public class CreditService {
     }
 
     public void calculationLoanFromApi() throws IOException {
-            URL url = new URL("https://run.mocky.io/v3/0a44e23c-569f-4058-81de-fa8c77259873");
+        URL url = new URL("https://run.mocky.io/v3/32cf01c9-8dd6-4629-a595-434a05c3f04d");
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder res = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                res.append(line);
-            }
-            reader.close();
-            RequestCredit mapResp = constructRequest(res.toString());
-            boolean isValid = validationVehicleType(mapResp);
-            if (isValid) {
-                calculateInstallment(mapResp.getPrincipalLoan(), mapResp.getTenor(), mapResp.getVehicleType());
-            }
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        StringBuilder res = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            res.append(line);
+        }
+        reader.close();
+        RequestCredit mapResp = constructRequest(res.toString());
+        boolean isValid = validationRequest(mapResp);
+        if (isValid) {
+            calculateInstallment(mapResp.getPrincipalLoan(), mapResp.getTenor(), mapResp.getVehicleType());
+        }
     }
 
     private RequestCredit constructRequest(String json) {
@@ -77,7 +81,7 @@ public class CreditService {
         return req;
     }
 
-    private boolean validationVehicleType(RequestCredit requestCredit) {
+    private boolean validationRequest(RequestCredit requestCredit) {
         if (!requestCredit.getVehicleType().equalsIgnoreCase("Mobil")
                 || requestCredit.getVehicleType().equalsIgnoreCase("Motor")) {
             System.err.println("ERROR : Vehicle Type is Wrong Please Input Mobil/Motor");
@@ -124,7 +128,7 @@ public class CreditService {
         BigDecimal monthlyInstallment;
         BigDecimal rate = vehicleType.equalsIgnoreCase("Mobil") ? new BigDecimal("8.0") : new BigDecimal("9.0");
         BigDecimal installmentYearly;
-        BigDecimal totalMonthlyInstallments =BigDecimal.ZERO;
+        BigDecimal totalMonthlyInstallments = BigDecimal.ZERO;
 
 
         for (int year = 1; year <= tenor; year++) {
@@ -136,16 +140,16 @@ public class CreditService {
                 }
             }
 
-            principalLoan= (principalLoan.multiply(rate.divide(new BigDecimal(100), 2,RoundingMode.HALF_UP))).add(principalLoan);
-            BigDecimal devisor =(BigDecimal.valueOf(12).multiply(new BigDecimal(tenor)))
+            principalLoan = (principalLoan.multiply(rate.divide(new BigDecimal(100), 2, RoundingMode.HALF_UP))).add(principalLoan);
+            BigDecimal devisor = (BigDecimal.valueOf(12).multiply(new BigDecimal(tenor)))
                     .subtract(totalMonthlyInstallments);
-            monthlyInstallment=principalLoan.divide(devisor,2,RoundingMode.HALF_UP);
+            monthlyInstallment = principalLoan.divide(devisor, 2, RoundingMode.HALF_UP);
 
             System.out.printf("Tahun %d : Rp. %, .2f/bln, Suku Bunga : %.1f%%%n", year, monthlyInstallment, rate);
 
-            installmentYearly=monthlyInstallment.multiply(new BigDecimal(12));
-            totalMonthlyInstallments=totalMonthlyInstallments.add(new BigDecimal(12));
-            principalLoan=principalLoan.subtract(installmentYearly);
+            installmentYearly = monthlyInstallment.multiply(new BigDecimal(12));
+            totalMonthlyInstallments = totalMonthlyInstallments.add(new BigDecimal(12));
+            principalLoan = principalLoan.subtract(installmentYearly);
 
         }
     }
