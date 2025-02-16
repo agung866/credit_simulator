@@ -14,6 +14,7 @@ cara untuk running di Docker :
    NOTES : anda bisa ubah filenya dengan urutan vehicleType|vehicleCondition|yearOfVehicle|loanAmount|tenor|downPayment
 
 pembuatan mock api : https://designer.mocky.io/design
+NOTES : service ini belum bisa menerima data lebih dari 1 baik lewat call api atau lewat file input
 
 contoh isi json yang digunakan : 
 {
