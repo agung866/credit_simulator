@@ -1,37 +1,151 @@
-cara untuk running local :
-1. clone dulu file https://github.com/agung866/credit_simulator.git
-2. setelah itu buka di Code Editor (disini saya pakai intellij)
-3. lalu lakukan perintah mvn clean package
-4. kemudian setelah itu execute dengan script di bawah without docker
-NOTES : anda bisa ubah filenya dengan urutan vehicleType|vehicleCondition|yearOfVehicle|loanAmount|tenor|downPayment
+# Credit Simulator
 
-cara untuk running di Docker :
-1. clone dulu file https://github.com/agung866/credit_simulator.git
-2. setelah itu buka di Code Editor (disini saya pakai intellij)
-3. lalu lakukan perintah mvn clean package
-4. execute script ini di terminal docker build -t credit_simulator:1.0 .
-5. kemudian setelah itu execute dengan script di bawah run docker
-   NOTES : anda bisa ubah filenya dengan urutan vehicleType|vehicleCondition|yearOfVehicle|loanAmount|tenor|downPayment
+Simulasi kredit kendaraan berdasarkan input seperti jenis kendaraan, kondisi kendaraan, tahun, jumlah pinjaman, tenor, dan uang muka.
 
-pembuatan mock api : https://designer.mocky.io/design
-NOTES : service ini belum bisa menerima data lebih dari 1 baik lewat call api atau lewat file input
+---
 
-contoh isi json yang digunakan : 
+## 🚀 Cara Menjalankan Secara Lokal
+
+1. **Clone Repository**  
+   Jalankan perintah berikut:
+   ```bash
+   git clone https://github.com/agung866/credit_simulator.git
+   ```
+
+2. **Buka di Code Editor**  
+   Buka project di editor favorit Anda (contoh: IntelliJ IDEA).
+
+3. **Build Aplikasi**  
+   Jalankan perintah Maven berikut:
+   ```bash
+   mvn clean package
+   ```
+
+4. **Jalankan Aplikasi Tanpa Docker**
+   - **Tanpa file input**:
+     ```bash
+     ./bin/credit_simulator
+     ```
+
+   - **Dengan file input**:
+     ```bash
+     ./bin/credit_simulator file_input.txt
+     ```
+
+   - **Menggunakan Java**:
+     ```bash
+     java -jar target/credit_simulator-1.0-SNAPSHOT.jar
+     ```
+
+   - **Dengan file input menggunakan Java**:
+     ```bash
+     java -jar target/credit_simulator-1.0-SNAPSHOT.jar file_input.txt
+     ```
+
+   **📌 Catatan:**  
+   Anda bisa mengubah isi file input dengan format:  
+   `vehicleType|vehicleCondition|yearOfVehicle|loanAmount|tenor|downPayment`
+
+---
+
+## 🐋 Cara Menjalankan Menggunakan Docker
+
+1. **Clone Repository**  
+   Jalankan perintah berikut:
+   ```bash
+   git clone https://github.com/agung866/credit_simulator.git
+   ```
+
+2. **Buka di Code Editor**  
+   Buka project di editor favorit Anda (contoh: IntelliJ IDEA).
+
+3. **Build Aplikasi**  
+   Jalankan perintah berikut:
+   ```bash
+   mvn clean package
+   ```
+
+4. **Build Docker Image**  
+   Jalankan perintah:
+   ```bash
+   docker build -t credit_simulator:1.0 .
+   ```
+
+5. **Jalankan Aplikasi dengan Docker**
+   - **Tanpa file input**:
+     ```bash
+     docker run -it --rm credit_simulator:1.0
+     ```
+
+   - **Dengan file input**:
+     ```bash
+     docker run -it --rm -v "$(pwd)/file_input.txt:/app/file_input.txt" credit_simulator:1.0 file_input.txt
+     ```
+
+   **📌 Catatan:**  
+   Format file input:  
+   `vehicleType|vehicleCondition|yearOfVehicle|loanAmount|tenor|downPayment`
+
+---
+
+## 🛠️ Pembuatan Mock API
+
+Gunakan [Mocky API Designer](https://designer.mocky.io/design) untuk membuat mock API.  
+**📌 Catatan:** Service ini belum bisa menerima data lebih dari satu, baik melalui API call maupun file input.
+
+---
+
+## 📋 Contoh Data JSON yang Digunakan
+
+```json
 {
-"vehicleType":"Mobil",
-"vehicleCondition":"Bekas",
-"yearOfVehicle":2023,
-"loanAmount":130000000,
-"tenor":6,
-"downPayment":35
+  "vehicleType": "Mobil",
+  "vehicleCondition": "Bekas",
+  "yearOfVehicle": 2023,
+  "loanAmount": 130000000,
+  "tenor": 6,
+  "downPayment": 35
 }
+```
 
-script run docker: 
-1. docker run -it --rm credit_simulator:1.0
-2. docker run -it --rm -v "$(pwd)/file_input.txt:/app/file_input.txt" credit_simulator:1.0 file_input.txt
+---
 
-script run without docker :
-1. ./bin/credit_simulator
-2. ./bin/credit_simulator file_input.txt
-3. java -jar target/credit_simulator-1.0-SNAPSHOT.jar
-4. java -jar target/credit_simulator-1.0-SNAPSHOT.jar file_input.txt 
+## 📦 Script Eksekusi Docker
+
+- **Tanpa file input**:
+  ```bash
+  docker run -it --rm credit_simulator:1.0
+  ```
+
+- **Dengan file input**:
+  ```bash
+  docker run -it --rm -v "$(pwd)/file_input.txt:/app/file_input.txt" credit_simulator:1.0 file_input.txt
+  ```
+
+---
+
+## 📄 Script Eksekusi Tanpa Docker
+
+1. **Tanpa file input**:
+   ```bash
+   ./bin/credit_simulator
+   ```
+
+2. **Dengan file input**:
+   ```bash
+   ./bin/credit_simulator file_input.txt
+   ```
+
+3. **Menggunakan Java tanpa file input**:
+   ```bash
+   java -jar target/credit_simulator-1.0-SNAPSHOT.jar
+   ```
+
+4. **Menggunakan Java dengan file input**:
+   ```bash
+   java -jar target/credit_simulator-1.0-SNAPSHOT.jar file_input.txt
+   ```
+
+---
+
+🎉 **Terima kasih telah menggunakan Credit Simulator!** Jika ada pertanyaan lebih lanjut, silakan hubungi pengembang atau lihat dokumentasi tambahan.
