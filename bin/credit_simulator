@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 JAR_PATH="target/credit_simulator-1.0-SNAPSHOT.jar"
 
 if [ -z "$1" ]; then
