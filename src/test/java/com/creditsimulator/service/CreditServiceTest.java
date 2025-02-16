@@ -84,21 +84,18 @@ class CreditServiceTest {
 
     @Test
     void testCalculationLoanFromFileValidFile() throws IOException {
-        // Arrange
+
         BufferedReader mockReader = Mockito.mock(BufferedReader.class);
 
-        // Mock behavior untuk readLine agar mengembalikan data tiruan
         when(mockReader.readLine())
                 .thenReturn("MOBIL|BEKAS|2020|200000000|6|35")
-                .thenReturn(null); // Indikasi akhir file
+                .thenReturn(null);
 
-        // Buat instance CreditService
+
         CreditService creditService = new CreditService();
 
-        // Eksekusi metode yang diuji dengan mock BufferedReader
         creditService.calculationLoanFromFile(mockReader);
 
-        // Verifikasi bahwa readLine dipanggil setidaknya dua kali
         verify(mockReader, atLeast(2)).readLine();
     }
     private static Stream<Arguments> args(){
@@ -164,8 +161,6 @@ class CreditServiceTest {
     @ParameterizedTest
     @MethodSource("args")
     void testCalculationLoanFromApiInvalidRes(String mockResp) throws IOException {
-        // Arrange
-
         InputStream inputStream = new ByteArrayInputStream(mockResp.getBytes());
         HttpURLConnection mockConnection = mock(HttpURLConnection.class);
         when(mockConnection.getInputStream()).thenReturn(inputStream);
