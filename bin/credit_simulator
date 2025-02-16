@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Path ke JAR file
+JAR_PATH="target/credit_simulator.jar"
+
+# Jalankan aplikasi Java dengan argumen tambahan jika ada
+if [ -z "$1" ]; then
+  java -jar "$JAR_PATH"
+else
+  java -jar "$JAR_PATH" "$@"
+fi
