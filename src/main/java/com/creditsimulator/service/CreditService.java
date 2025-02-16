@@ -1,6 +1,7 @@
 package com.creditsimulator.service;
 
 import com.creditsimulator.model.RequestCredit;
+import com.creditsimulator.util.Constans;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -82,8 +83,8 @@ public class CreditService {
     }
 
     private boolean validationRequest(RequestCredit requestCredit) {
-        if (!requestCredit.getVehicleType().equalsIgnoreCase("Mobil")
-                || requestCredit.getVehicleType().equalsIgnoreCase("Motor")) {
+        if (!requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOBIL)
+                || requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOTOR)) {
             System.err.println("ERROR : Vehicle Type is Wrong Please Input Mobil/Motor");
             return false;
         }
@@ -92,8 +93,8 @@ public class CreditService {
             return false;
         }
 
-        if ((!requestCredit.getVehicleCondition().equalsIgnoreCase("BARU"))
-                && (!requestCredit.getVehicleCondition().equalsIgnoreCase("BEKAS"))) {
+        if ((!requestCredit.getVehicleCondition().equalsIgnoreCase(Constans.BARU))
+                && (!requestCredit.getVehicleCondition().equalsIgnoreCase(Constans.BEKAS))) {
             System.err.println("ERROR : Condition Type is Wrong Please Input BARU/BEKAS");
             return false;
         }
@@ -106,14 +107,14 @@ public class CreditService {
             return false;
         }
         int yearNewVehicle = ZonedDateTime.now().minusYears(1).getYear();
-        if (requestCredit.getVehicleCondition().equalsIgnoreCase("BARU") && requestCredit.getYearOfVehicle() < yearNewVehicle) {
+        if (requestCredit.getVehicleCondition().equalsIgnoreCase(Constans.BARU) && requestCredit.getYearOfVehicle() < yearNewVehicle) {
             System.err.println("ERROR : Vehicle is not new condition, Please input new condition with year less than currentYear - 1");
             return false;
         }
-        if (requestCredit.getVehicleType().equalsIgnoreCase("MOBIL") && requestCredit.getDownPayment() < 35) {
+        if (requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOBIL) && requestCredit.getDownPayment() < 35) {
             System.err.println("ERROR : Car Down Payment cannot be less than 35%");
             return false;
-        } else if (requestCredit.getVehicleType().equalsIgnoreCase("MOTOR") && requestCredit.getDownPayment() < 25) {
+        } else if (requestCredit.getVehicleType().equalsIgnoreCase(Constans.MOTOR) && requestCredit.getDownPayment() < 25) {
             System.err.println("ERROR : Motorbike Down Payment cannot be less than 25%");
             return false;
         }
