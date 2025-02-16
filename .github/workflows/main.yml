@@ -44,7 +44,7 @@ jobs:
 
       # Step 6: Upload artifact (file JAR hasil build)
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: target
           path: target/
