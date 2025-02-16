@@ -1,0 +1,58 @@
+name: Java CI/CD with Maven
+
+on:
+  push:
+    branches:
+      - master  # Trigger pipeline saat ada push ke branch main
+  pull_request:
+    branches:
+      - master  # Trigger pipeline saat ada pull request ke branch main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Gunakan runner Ubuntu terbaru
+
+    steps:
+      # Step 1: Checkout kode dari repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Java environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'  # Gunakan Temurin JDK (OpenJDK)
+
+      # Step 3: Cache dependencies Maven untuk mempercepat build
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      # Step 4: Build proyek dengan Maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      # Step 5: Jalankan unit test
+      - name: Run tests
+        run: mvn test
+
+      # Step 6: Upload artifact (file JAR hasil build)
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: target
+          path: target/
+
+      # Step 7: Deploy ke server (opsional)
+      - name: Deploy to server
+        if: github.ref == 'refs/heads/main'  # Hanya deploy dari branch main
+        run: |
+          echo "Deploying application..."
+          # Tambahkan perintah deploy ke server Anda di sini
+          # Contoh: scp target/my-app.jar user@server:/path/to/deploy
